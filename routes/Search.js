@@ -1,6 +1,6 @@
 const express = require('express'),
     search = express.Router(),
-    db = require('../config/db')
+    Home = require('../model/Home')
 
 var myhome = [
     {
@@ -97,10 +97,15 @@ var myhome = [
 ]
 
 search.route('/myhome')
-    .get((req, res) => {
+    .post(async (req, res) => {
+
+        const homes = await Home.find(this.all)
+        console.log(homes);
 
         const { fPrice, ePrice, province, category } = { ...req.body }
-        const price = myhome.filter(item => {
+        // console.log(fPrice + ePrice + province + category);
+
+        const price = homes.filter(item => {
             if (item.price >= +fPrice && item.price <= +ePrice)
                 return item
         })
@@ -125,8 +130,10 @@ search.route('/myhome')
 //7.004547,100.492221
 
 search.route('/location')
-    .get((req, res) => {
+    .post(async (req, res) => {
         const { latitude, longitude } = { ...req.body }
+
+        const homes = await Home.find(this.all)
 
         var BETWEEN_DEGREE = 15;
         var THOUSAND_METER = 1000;
@@ -182,7 +189,7 @@ search.route('/location')
 
         var distance = 0
 
-        const x = myhome.filter((item) => {
+        const x = homes.filter((item) => {
             var gps1 = new GPS(+latitude, +longitude);
             var gps2 = new GPS(+item.latitude, +item.longitude);
 
@@ -190,7 +197,7 @@ search.route('/location')
             distance = findDistance(gps1, gps2)
             console.log(distance);
 
-            if (distance < 3000)
+            if (distance < 5000)
                 return item
             // nearby.push(item)
         })

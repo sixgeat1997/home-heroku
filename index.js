@@ -11,7 +11,6 @@ const myuser = require('./routes/Myuser'),
     search = require('./routes/Search'),
     db = require('./config/db')
 
-
 let port = process.env.PORT || 4444
 
 dotenv.config()
@@ -43,6 +42,10 @@ app.listen(port, () => {
     console.log("server is ok");
 
 })
+
+//mongodb+srv://newhome:<password>@cluster0-zb5mq.mongodb.net/<dbname>?retryWrites=true&w=majority
+//MONGODB_URI = mongodb://heroku_4jkq58pn:6kq1r74ub2cc74m6o7lp7r0bmh@ds243084.mlab.com:43084/heroku_4jkq58pn
+
 
 
 
