@@ -1,0 +1,48 @@
+const express = require('express'),
+    bodyParser = require('body-parser'),
+    cors = require('cors'),
+    app = express(),
+    router = express.Router(),
+    mongoose = require('mongoose'),
+    dotenv = require('dotenv')
+
+const myuser = require('./routes/Myuser'),
+    rest = require('./routes/Rest'),
+    search = require('./routes/Search'),
+    db = require('./config/db')
+
+
+let port = process.env.PORT || 4444
+
+dotenv.config()
+
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }), router)
+
+// database connect
+mongoose.connect(
+    process.env.MONGODB_URI,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    },
+    () => console.log('connected to db')
+);
+
+//route 
+app.use('/api', rest)
+app.use('/search', search)
+app.use('/user', myuser)
+// app.use('/line', webhook)
+
+
+
+app.use("*", (req, res) => res.status(404).send("404 not found"))
+app.listen(port, () => {
+    console.log("server is ok");
+
+})
+
+
+
