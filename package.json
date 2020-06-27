@@ -8,12 +8,18 @@
     "start": "npm install && node index.js",
     "dev": "node index.js"
   },
-  "builds": [{ "src": "index.js", "use": "@now/node-server" }],
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node-server"
+    }
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^15.0.3",
+    "@line/bot-sdk": "^7.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

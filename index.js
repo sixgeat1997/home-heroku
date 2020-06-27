@@ -9,14 +9,14 @@ const express = require('express'),
 const myuser = require('./routes/Myuser'),
     rest = require('./routes/Rest'),
     search = require('./routes/Search'),
-    db = require('./config/db')
+    db = require('./config/db'),
+    webhook = require('./routes/Webhook')
 
 let port = process.env.PORT || 4444
 
 dotenv.config()
 
 app.use(cors())
-app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }), router)
 
 // database connect
@@ -33,8 +33,9 @@ mongoose.connect(
 app.use('/api', rest)
 app.use('/search', search)
 app.use('/user', myuser)
-// app.use('/line', webhook)
+app.use('/line', webhook)
 
+app.use(bodyParser.json())
 
 
 app.use("*", (req, res) => res.status(404).send("404 not found"))
