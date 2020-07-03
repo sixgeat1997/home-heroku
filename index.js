@@ -14,9 +14,8 @@ const myuser = require('./routes/Myuser'),
 
 let port = process.env.PORT || 4444
 
-dotenv.config()
 
-app.use(cors())
+dotenv.config()
 app.use(bodyParser.urlencoded({ extended: false }), router)
 
 // database connect
@@ -35,7 +34,9 @@ app.use('/search', search)
 app.use('/user', myuser)
 app.use('/line', webhook)
 
+
 app.use(bodyParser.json())
+app.use(cors())
 
 
 app.use("*", (req, res) => res.status(404).send("404 not found"))
