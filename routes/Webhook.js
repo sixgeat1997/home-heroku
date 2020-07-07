@@ -24,31 +24,31 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
     // res.send('sad')
     // console.log(req.body.events);
 
-    const homes = await Home.find(this.all)
+    // const homes = await Home.find(this.all)
 
-    const latitude = 1
-    const longitude = 2
+    // const latitude = 1
+    // const longitude = 2
 
-    var GPS = function (lat, lnt) {
-        this.latitude = lat || 0;
-        this.longitude = lnt || 0;
-    };
+    // var GPS = function (lat, lnt) {
+    //     this.latitude = lat || 0;
+    //     this.longitude = lnt || 0;
+    // };
 
-    var distance = 0
+    // var distance = 0
 
-    const x = homes.filter((item) => {
-        var gps1 = new GPS(+latitude, +longitude);
-        var gps2 = new GPS(+item.latitude, +item.longitude);
+    // const x = homes.filter((item) => {
+    //     var gps1 = new GPS(+latitude, +longitude);
+    //     var gps2 = new GPS(+item.latitude, +item.longitude);
 
 
-        distance = findDistance(gps1, gps2)
-        distance = distance - 10980000
-        console.log(distance);
+    //     distance = findDistance(gps1, gps2)
+    //     distance = distance - 10980000
+    //     console.log(distance);
 
-        if (distance < 5000)
-            return item
-        // nearby.push(item)
-    })
+    //     if (distance < 5000)
+    //         return item
+    //     // nearby.push(item)
+    // })
     // console.log(x);
 
     Promise.all(req.body.events.map(handleReply))

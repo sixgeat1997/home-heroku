@@ -11,8 +11,9 @@ const myuser = require('./routes/Myuser'),
     rest = require('./routes/Rest'),
     search = require('./routes/Search'),
     db = require('./config/db'),
-    webhook = require('./routes/Webhook')
-const verifyToken = require('./validator/verifyToken')
+    webhook = require('./routes/Webhook'),
+    image = require('./routes/Image'),
+    verifyToken = require('./validator/verifyToken')
 
 let port = process.env.PORT || 4444
 
@@ -36,6 +37,7 @@ app.use(bodyParser.json())
 app.use('/api', rest)
 app.use('/search', search)
 app.use('/user', myuser)
+app.use('/uploads', image)
 
 
 app.use(cors())

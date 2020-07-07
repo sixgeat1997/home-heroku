@@ -67,7 +67,11 @@ const homeSchema = mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    img:{
+        type: Array,
     }
+
 })
 
 module.exports = mongoose.model('Home', homeSchema)
