@@ -13,8 +13,8 @@ const aimlInterpreter = new AIMLInterpreter({ name: 'HelloBot' })
 // aimlInterpreter.loadAIMLFilesIntoArray(['./aiml_linebot.xml'])
 
 const config = {
-    channelAccessToken: "wDfx36SOqD/yiIQwbgDSkkq0efHKZ3OpYVd/cy5ba0NQMbmWEn7iJl+qQIsyMJd4hHVBGPTT1BDmGs+4hNwmrSm4DoYX3LpBrri4XcUViJfEWAtGls+/pYdGU38R7j9XyWKnIys3omEw8y1/rc0ZNgdB04t89/1O/w1cDnyilFU=",
-    channelSecret: 'da06a441ce510ab0c5b75686ed5261f5'
+    channelAccessToken: "FQ0sSyyAfPufXJwKzFP99Vl1F6FKfQt3IQmu22Zr4fZUYaTTIthpbrX7eU5B7ThiPZZM4LclJgMTRllFbW8IRlZasmGHQQGgAyIoWxpFwZnTh3sCxyq8A3lJ3erYgKP5KYyo3scFeRlirVRjib85YAdB04t89/1O/w1cDnyilFU=",
+    channelSecret: '0a2dec0c5d6577b8980ebc0e6c0d567e'
 }
 
 const client = new line.Client(config)
