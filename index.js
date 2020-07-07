@@ -4,23 +4,25 @@ const express = require('express'),
     app = express(),
     router = express.Router(),
     mongoose = require('mongoose'),
-    dotenv = require('dotenv')
+    dotenv = require('dotenv'),
+    morgan = require('morgan')
 
 const myuser = require('./routes/Myuser'),
     rest = require('./routes/Rest'),
     search = require('./routes/Search'),
     db = require('./config/db'),
     webhook = require('./routes/Webhook')
+const verifyToken = require('./validator/verifyToken')
 
 let port = process.env.PORT || 4444
 
 
 dotenv.config()
 app.use(bodyParser.urlencoded({ extended: false }), router)
-
+app.use(morgan('dev'))
 // database connect
 mongoose.connect(
-    process.env.MONGODB_URI,
+    process.env.HE_MONGODB_URI,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -29,13 +31,13 @@ mongoose.connect(
 );
 
 //route 
+app.use('/line', webhook)
+app.use(bodyParser.json())
 app.use('/api', rest)
 app.use('/search', search)
 app.use('/user', myuser)
-app.use('/line', webhook)
 
 
-app.use(bodyParser.json())
 app.use(cors())
 
 

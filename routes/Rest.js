@@ -112,7 +112,7 @@ rest.route('/home')
         // const test = [...newhome]
         try {
             if (newhome) {
-                console.log(newhome[0].name);
+                // console.log(newhome[0].name);
                 res.send(newhome)
             }
         } catch (err) {
@@ -120,11 +120,12 @@ rest.route('/home')
             console.log(err);
         }
 
-
-
-
     })
     .post(async (req, res) => {
+
+        console.log(req.body);
+        
+
         const newhome = await Home.find(this.all)
         const { error } = homeValidation(req.body)
         if (error) return res.status(400).send(error.details[0].message)

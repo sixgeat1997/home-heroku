@@ -2,16 +2,18 @@ const express = require('express'),
     myuser = express.Router(),
     User = require('../model/User'),
     bcryptjs = require('bcryptjs'),
-    { regisValidation, loginValidation } = require('../validator/User_valid')
+    { regisValidation, loginValidation } = require('../validator/User_valid'),
+    jwt = require('jsonwebtoken')
 
 myuser.route('/register')
     .get((req, res) => {
         res.send("a")
     })
     .post(async (req, res) => {
-
+        console.log(req.body);
+        
         const { error } = regisValidation(req.body)
-        if (error) return res.status(400).send(error.details[0].message)
+        if (error) return res.status(400).send(error.details[0])
 
         const userExist = await User.findOne({ username: req.body.username })
         if (userExist) return res.status(400).send('Username already exists')
@@ -36,6 +38,10 @@ myuser.route('/register')
 
 myuser.route('/login')
     .post(async (req, res) => {
+
+        console.log(req.body);
+        
+
         const { error } = loginValidation(req.body)
         if (error) res.status(400).send(error.details[0].message)
 
@@ -45,7 +51,9 @@ myuser.route('/login')
         const validPass = await bcryptjs.compare(req.body.password, user.password)
         if (!validPass) return res.status(400).send("Invalid password")
 
-        res.send("Logged in!")
+        const token = jwt.sign({username : req.body.username }, process.env.TOKEN_SECRET)
+        res.header('auth-token').send(token)
+        // res.send("Logged in!")
 
     })
 
