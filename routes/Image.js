@@ -69,9 +69,7 @@ image.post('/upload', async (req, res) => {
                 for (const key in req.files) {
                     if (key) {
                         // console.log(files[key].filename);
-                        urlImage.push(`${server}/upload/${files[key].filename}`)
-
-
+                        urlImage.push(`${server}/uploads/upload/${files[key].filename}`)
                     }
                 }
                 const img = new imgSchema({
