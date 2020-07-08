@@ -12,7 +12,8 @@ const homeValidation = data => {
         category: Joi.string().min(4).required(),
         tel: Joi.string().min(6).required(),
         province: Joi.string().min(2).required(),
-        
+        img_url: Joi.array()
+
     }
     return Joi.validate(data, schema)
 }

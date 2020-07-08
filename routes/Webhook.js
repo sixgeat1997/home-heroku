@@ -51,12 +51,14 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
     // })
     // console.log(x);
 
-    Promise.all(req.body.events.map(handleReply))
-        .then(() => res.end())
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+    res.send('ok')
+
+    // Promise.all(req.body.events.map(handleReply))
+    //     .then(() => res.end())
+    //     .catch((err) => {
+    //         console.error(err);
+    //         res.status(500).end();
+    //     });
 
 })
 

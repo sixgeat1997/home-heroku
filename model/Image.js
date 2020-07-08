@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
+
 const imageSchema = mongoose.Schema({
     img: {
         type: Array,
         required: true
     },
     id:{
-        type: Number,
-        required : true
+        type: Number
     }
 })
 

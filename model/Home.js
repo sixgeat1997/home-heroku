@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+var Schema = mongoose.Schema;
 const homeSchema = mongoose.Schema({
     id: {
         type: Number
@@ -68,8 +68,9 @@ const homeSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    img:{
+    img_url: {
         type: Array,
+        required: true
     }
 
 })

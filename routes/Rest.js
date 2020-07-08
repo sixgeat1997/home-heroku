@@ -33,7 +33,7 @@ rest.route('/home')
 
         const newhome = await Home.find(this.all)
         const { error } = homeValidation(req.body)
-        if (error) return res.status(400).send(error.details[0].message)
+        if (error) return res.status(400).send(error.details[0])
 
         const id = newhome.length
 
@@ -49,7 +49,7 @@ rest.route('/home')
             category: req.body.category,
             tel: req.body.tel,
             province: req.body.province,
-            img: req.body.img
+            img_url: req.body.img_url
 
         })
         try {
