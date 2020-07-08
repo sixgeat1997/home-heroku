@@ -13,7 +13,7 @@ const server = 'https://ok-myhome.herokuapp.com'
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "routes/uploads/");
+        cb(null, "uploads/");
     },
     filename: (req, file, cb) => {
         cb(
@@ -48,7 +48,7 @@ let uploader = multer({
 
 
 image.get('/upload/:path', (req, res) => {
-    return res.sendFile(req.params.path, { root: "routes/uploads/" });
+    return res.sendFile(req.params.path, { root: "uploads/" });
 })
 image.post('/upload', async (req, res) => {
     const newhome = await Home.find(this.all)
@@ -69,7 +69,7 @@ image.post('/upload', async (req, res) => {
                 for (const key in req.files) {
                     if (key) {
                         // console.log(files[key].filename);
-                        urlImage.push(`${server}/uploads/upload/${files[key].filename}`)
+                        urlImage.push(`${server}/upload/${files[key].filename}`)
 
 
                     }
@@ -81,7 +81,7 @@ image.post('/upload', async (req, res) => {
                 })
                 const savedImg = img.save()
 
-                // res.send(urlImage)
+                res.send(urlImage)
                 // res.json({
                 //     message: "file uploaded",
                 //     url: `${urlImage}`
