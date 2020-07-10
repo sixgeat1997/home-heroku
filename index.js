@@ -21,6 +21,9 @@ let port = process.env.PORT || 4444
 dotenv.config()
 app.use(bodyParser.urlencoded({ extended: false }), router)
 app.use(morgan('dev'))
+app.use(cors())
+app.use(bodyParser.json())
+
 // database connect
 mongoose.connect(
     process.env.HE_MONGODB_URI,
@@ -33,14 +36,12 @@ mongoose.connect(
 
 //route 
 app.use('/line', webhook)
-app.use(bodyParser.json())
 app.use('/api', rest)
 app.use('/search', search)
 app.use('/user', myuser)
 app.use('/uploads', image)
 
 
-app.use(cors())
 
 
 app.use("*", (req, res) => res.status(404).send("404 not found"))

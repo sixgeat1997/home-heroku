@@ -9,7 +9,7 @@ const express = require('express'),
 const AIMLInterpreter = require('aimlinterpreter')
 const cp = require('child_process');
 const aimlInterpreter = new AIMLInterpreter({ name: 'HelloBot' })
-
+const { WebhookClient } = require('dialogflow-fulfillment');
 // aimlInterpreter.loadAIMLFilesIntoArray(['./aiml_linebot.xml'])
 
 const config = {
@@ -19,48 +19,83 @@ const config = {
 
 const client = new line.Client(config)
 
-webhook.post('/webhook', line.middleware(config), async (req, res) => {
-    // console.log(request.body);
-    // res.send('sad')
-    // console.log(req.body.events);
-
-    // const homes = await Home.find(this.all)
-
-    // const latitude = 1
-    // const longitude = 2
-
-    // var GPS = function (lat, lnt) {
-    //     this.latitude = lat || 0;
-    //     this.longitude = lnt || 0;
-    // };
-
-    // var distance = 0
-
-    // const x = homes.filter((item) => {
-    //     var gps1 = new GPS(+latitude, +longitude);
-    //     var gps2 = new GPS(+item.latitude, +item.longitude);
-
-
-    //     distance = findDistance(gps1, gps2)
-    //     distance = distance - 10980000
-    //     console.log(distance);
-
-    //     if (distance < 5000)
-    //         return item
-    //     // nearby.push(item)
-    // })
-    // console.log(x);
-
-    res.send('ok')
-
-    // Promise.all(req.body.events.map(handleReply))
-    //     .then(() => res.end())
-    //     .catch((err) => {
-    //         console.error(err);
-    //         res.status(500).end();
-    //     });
-
+webhook.get('/webhook', (req, res) => {
+    res.send({
+        success: true
+    });
 })
+
+webhook.post('/webhook', (req, res) => {
+    console.log('POST: /');
+    console.log('Body: ', req.body);
+    //Create an instance
+    const agent = new WebhookClient({
+        request: req,
+        response: res
+    });
+    //Test get value of WebhookClient
+    console.log('agentVersion: ' + agent.agentVersion);
+    console.log('intent: ' + agent.intent);
+    console.log('locale: ' + agent.locale);
+    console.log('query: ', agent.query);
+    console.log('session: ', agent.session);
+    //Function Location
+    function randomNumber(agent) {
+        let startNumber = req.body.queryResult.parameters.startNumber
+        let endNumber = req.body.queryResult.parameters.endNumber
+
+        let result = parseInt(Math.random() * (endNumber - startNumber) + startNumber);
+
+        agent.add(`Random number between ${startNumber} and ${endNumber} is ${result}`);
+    }
+    // Run the proper function handler based on the matched Dialogflow intent name
+    let intentMap = new Map();
+    intentMap.set('Number', randomNumber);  // "Location" is once Intent Name of Dialogflow Agent
+    agent.handleRequest(intentMap);
+})
+
+// webhook.post('/webhook', line.middleware(config), async (req, res) => {
+// console.log(request.body);
+// res.send('sad')
+// console.log(req.body.events);
+
+// const homes = await Home.find(this.all)
+
+// const latitude = 1
+// const longitude = 2
+
+// var GPS = function (lat, lnt) {
+//     this.latitude = lat || 0;
+//     this.longitude = lnt || 0;
+// };
+
+// var distance = 0
+
+// const x = homes.filter((item) => {
+//     var gps1 = new GPS(+latitude, +longitude);
+//     var gps2 = new GPS(+item.latitude, +item.longitude);
+
+
+//     distance = findDistance(gps1, gps2)
+//     distance = distance - 10980000
+//     console.log(distance);
+
+//     if (distance < 5000)
+//         return item
+//     // nearby.push(item)
+// })
+// console.log(x);
+
+// res.send('ok')
+
+// Promise.all(req.body.events.map(handleReply))
+//     .then(() => res.end())
+//     .catch((err) => {
+//         console.error(err);
+//         res.status(500).end();
+//     });
+
+// })
 
 
 const handleReply = (event) => {
