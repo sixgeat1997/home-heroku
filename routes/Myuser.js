@@ -13,7 +13,7 @@ myuser.route('/register')
         console.log(req.body);
 
         const { error } = regisValidation(req.body)
-        if (error) return res.status(400).send(error.details[0])
+        if (error) return res.status(400).send(error.details[0].message)
 
         const userExist = await User.findOne({ username: req.body.username })
         if (userExist) return res.status(400).send('Username already exists')
