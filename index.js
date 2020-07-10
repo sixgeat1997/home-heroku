@@ -22,7 +22,6 @@ dotenv.config()
 app.use(bodyParser.urlencoded({ extended: false }), router)
 app.use(morgan('dev'))
 app.use(cors())
-app.use(bodyParser.json())
 
 // database connect
 mongoose.connect(
@@ -36,6 +35,8 @@ mongoose.connect(
 
 //route 
 app.use('/line', webhook)
+app.use(bodyParser.json())
+
 app.use('/api', rest)
 app.use('/search', search)
 app.use('/user', myuser)
