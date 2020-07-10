@@ -13,10 +13,10 @@ myuser.route('/register')
         console.log(req.body);
 
         const { error } = regisValidation(req.body)
-        if (error) return res.status(400).send({ message: error.details[0].message })
+        if (error) return res.send({ message: error.details[0].message })
 
         const userExist = await User.findOne({ username: req.body.username })
-        if (userExist) return res.status(400).send({ message: 'Username already exists' })
+        if (userExist) return res.send({ message: 'Username already exists' })
 
         const salt = await bcryptjs.genSalt(10)
         const hashPass = await bcryptjs.hash(req.body.password, salt)
@@ -34,7 +34,7 @@ myuser.route('/register')
                 message: "register success"
             })
         } catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
 
     })
@@ -43,13 +43,13 @@ myuser.route('/login')
     .post(async (req, res) => {
 
         const { error } = loginValidation(req.body)
-        if (error) res.status(400).send({ message: error.details[0].message })
+        if (error) res.send({ message: error.details[0].message })
 
         const user = await User.findOne({ username: req.body.username })
-        if (!user) return res.status(400).send({ message: "username not found" })
+        if (!user) return res.send({ message: "username not found" })
 
         const validPass = await bcryptjs.compare(req.body.password, user.password)
-        if (!validPass) return res.status(400).send({ message: "Invalid password" })
+        if (!validPass) return res.send({ message: "Invalid password" })
 
         const token = jwt.sign({ username: req.body.username }, process.env.TOKEN_SECRET)
         res.header('auth-token').json({
