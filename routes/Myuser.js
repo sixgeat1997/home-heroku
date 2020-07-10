@@ -11,7 +11,7 @@ myuser.route('/register')
     })
     .post(async (req, res) => {
         console.log(req.body);
-        
+
         const { error } = regisValidation(req.body)
         if (error) return res.status(400).send(error.details[0])
 
@@ -29,7 +29,10 @@ myuser.route('/register')
         })
         try {
             const savedUser = await user.save()
-            res.send({ user_id: user._id })
+            res.json({
+                user_id: user._id,
+                message: "register success"
+            })
         } catch (err) {
             res.status(400).send(err)
         }
@@ -48,8 +51,11 @@ myuser.route('/login')
         const validPass = await bcryptjs.compare(req.body.password, user.password)
         if (!validPass) return res.status(400).send("Invalid password")
 
-        const token = jwt.sign({username : req.body.username }, process.env.TOKEN_SECRET)
-        res.header('auth-token').send(token)
+        const token = jwt.sign({ username: req.body.username }, process.env.TOKEN_SECRET)
+        res.header('auth-token').json({
+            token: token,
+            message: "login success"
+        })
         // res.send("Logged in!")
 
     })
