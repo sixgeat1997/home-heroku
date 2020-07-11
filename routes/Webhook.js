@@ -353,20 +353,31 @@ const handleLocation = async (message, replyToken) => {
     })
 
     // console.log(newHome);
+    var thishome
 
     if (value == 'saleHome2m') {
-        var thishome = findHome(0, 2000000, "house", "sale", newHome)
+        thishome = findHome(0, 2000000, "condo", "sale", newHome)
         console.log("thishome");
         console.log(thishome);
-    } else if (value == 'saleHome2m5m') {
-
-    } else if (value == 'saleHome5m10m') {
-
-    } else if (value == 'saleHome10m') {
-
+    }
+    else if (value == 'saleHome2m5m') {
+        thishome = findHome(2000000, 5000000, "condo", "sale", newHome)
+        console.log("thishome");
+        console.log(thishome);
+    }
+    else if (value == 'saleHome5m10m') {
+        thishome = findHome(5000000, 10000000, "condo", "sale", newHome)
+        console.log("thishome");
+        console.log(thishome);
+    }
+    else if (value == 'saleHome10m') {
+        thishome = findHome(10000000, 20000000000, "condo", "sale", newHome)
+        console.log("thishome");
+        console.log(thishome);
     }
 
-
+    console.log('out if');
+    console.log(thishome);
 
 
 }
