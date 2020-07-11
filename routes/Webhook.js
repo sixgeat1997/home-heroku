@@ -21,40 +21,7 @@ const config = {
 
 const client = new line.Client(config)
 
-// webhook.get('/webhook', (req, res) => {
-//     res.send({
-//         success: true
-//     });
-// })
-
-// webhook.post('/webhook', (req, res) => {
-//     console.log('POST: /');
-//     console.log('Body: ', req.body);
-//     //Create an instance
-//     const agent = new WebhookClient({
-//         request: req,
-//         response: res
-//     });
-//     //Test get value of WebhookClient
-//     console.log('agentVersion: ' + agent.agentVersion);
-//     console.log('intent: ' + agent.intent);
-//     console.log('locale: ' + agent.locale);
-//     console.log('query: ', agent.query);
-//     console.log('session: ', agent.session);
-//     //Function Location
-//     function randomNumber(agent) {
-//         let startNumber = req.body.queryResult.parameters.startNumber
-//         let endNumber = req.body.queryResult.parameters.endNumber
-
-//         let result = parseInt(Math.random() * (endNumber - startNumber) + startNumber);
-
-//         agent.add(`Random number between ${startNumber} and ${endNumber} is ${result}`);
-//     }
-//     // Run the proper function handler based on the matched Dialogflow intent name
-//     let intentMap = new Map();
-//     intentMap.set('Number', randomNumber);  // "Location" is once Intent Name of Dialogflow Agent
-//     agent.handleRequest(intentMap);
-// })
+const value = ""
 
 webhook.post('/webhook', line.middleware(config), async (req, res) => {
     // console.log(request.body);
@@ -89,6 +56,7 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
     // console.log(x);
 
     // res.send('ok')
+    res.send(req.body)
 
     Promise.all(req.body.events.map(handleReply))
         .then(() => res.end())
@@ -130,9 +98,10 @@ const handleReply = (event) => {
             let data = event.postback.data;
             console.log(data);
             const buttonsImageURL = 'https://ak.picdn.net/shutterstock/videos/12523241/thumb/1.jpg'
-
+            value = data
             switch (data) {
-                case 'ซื้อบ้าน':
+
+                case 'saleHome2m':
                     return client.replyMessage(
                         event.replyToken,
                         {
@@ -171,26 +140,26 @@ const replyText = (token, texts) => {
         {
             type: 'text',
             text: "ระบุข้อมความไม่ถูกต้อง",
-            // quickReply: {
-            //     items: [
-            //         {
-            //             type: "action", // ③
-            //             // imageUrl: "https://example.com/sushi.png",
-            //             action: {
-            //                 type: "message",
-            //                 label: "Sushi",
-            //                 text: "Sushi"
-            //             }
-            //         },
-            //         {
-            //             "type": "action", // ④
-            //             "action": {
-            //                 "type": "location",
-            //                 "label": "Send location"
-            //             }
-            //         }
-            //     ]
-            // }
+            quickReply: {
+                items: [
+                    {
+                        type: "action", // ③
+                        // imageUrl: "https://example.com/sushi.png",
+                        action: {
+                            type: "message",
+                            label: "testlocal",
+                            text: `${value}`
+                        }
+                    },
+                    {
+                        "type": "action", // ④
+                        "action": {
+                            "type": "location",
+                            "label": "Send location"
+                        }
+                    }
+                ]
+            }
         });
 };
 
@@ -209,43 +178,182 @@ const handleText = async (message, replyToken, source) => {
         case 'ค้นหา':
             return client.replyMessage(replyToken,
                 {
-                    type: 'template',
-                    altText: 'Buttons alt text',
-                    template: {
-                        type: 'buttons',
-                        thumbnailImageUrl: buttonsImageURL,
-                        title: 'My button sample',
-                        text: 'Hello, my button',
-                        imageBackgroundColor: "#FFFFFF",
-                        title: "ซื้อบ้าน",
-                        text: "เลือกตามราคาที่ต้องการ",
-
-                        actions: [
+                    "type": "template",
+                    "altText": "this is a carousel template",
+                    "template": {
+                        "type": "carousel",
+                        "actions": [],
+                        "columns": [
                             {
-                                type: "postback",
-                                label: "ไม่เกิน 2 ล้านบาท",
-                                data: "saleHome2m"
+                                "thumbnailImageUrl": "https://i.pinimg.com/564x/30/c6/7c/30c67c7ff258d37360d35585265badc0.jpg",
+                                "text": "บ้าน",
+                                "actions": [
+                                    {
+                                        "type": "message",
+                                        "label": "ซื้อบ้าน",
+                                        "text": "ซื้อบ้าน"
+                                    },
+                                    {
+                                        "type": "message",
+                                        "label": "เช่าบ้าน",
+                                        "text": "เช่าบ้าน"
+                                    }
+                                ]
                             },
                             {
-                                type: "postback",
-                                label: "2 ล้านบาท - 5 ล้านบาท",
-                                data: "saleHome2m5m"
-                            },
-                            {
-                                type: "postback",
-                                label: "5 ล้านบาท - 10 ล้านบาท",
-                                data: "saleHome5m10m"
-                            },
-                            {
-                                type: "postback",
-                                label: "10 ล้านบาทขึ้นไป",
-                                data: "saleHome10m"
-                            },
+                                "thumbnailImageUrl": "https://i.pinimg.com/564x/43/75/6d/43756d6c0e4b6cab5a4681c4b807529f.jpg",
+                                "text": "คอนโด",
+                                "actions": [
+                                    {
+                                        "type": "message",
+                                        "label": "ซื้อคอนโด",
+                                        "text": "ซื้อคอนโด"
+                                    },
+                                    {
+                                        "type": "message",
+                                        "label": "เช่าคอนโด",
+                                        "text": "เช่าคอนโด"
+                                    }
+                                ]
+                            }
                         ]
-
-
                     }
-
+                }
+            )
+        case "ซื้อบ้าน":
+            return client.replyMessage(replyToken,
+                {
+                    "type": "template",
+                    "altText": "this is a buttons template",
+                    "template": {
+                        "type": "buttons",
+                        "actions": [
+                            {
+                                "type": "postback",
+                                "label": "ไม่เกิน 2 ล้านบาท",
+                                "data": "saleHome2m"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "2 ล้านบาท - 5 ล้านบา",
+                                "data": "saleHome2m5m"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "5 ล้านบาท - 10 ล้านบ",
+                                "data": "saleHome5m10m"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "10 ล้านบาทขึ้นไป",
+                                "data": "saleHome10m"
+                            }
+                        ],
+                        "title": "ซื้อบ้าน",
+                        "text": "กรุณาระบุราคา"
+                    }
+                }
+            )
+        case 'เช่าบ้าน':
+            return client.replyMessage(replyToken,
+                {
+                    "type": "template",
+                    "altText": "this is a buttons template",
+                    "template": {
+                        "type": "buttons",
+                        "actions": [
+                            {
+                                "type": "postback",
+                                "label": "ไม่เกิน 5,000 บาท",
+                                "data": "rentHome5"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "5,001 - 10,000 บาท",
+                                "data": "rentHome510"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "10,001 - 30,000 บาท",
+                                "data": "rentHome1030"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "30,001 บาทขึ้นไป",
+                                "data": "rentHome3"
+                            }
+                        ],
+                        "title": "เช่าบ้าน",
+                        "text": "กรุณาระบุราคา"
+                    }
+                }
+            )
+        case 'ซื้อคอนโด':
+            return client.replyMessage(replyToken,
+                {
+                    "type": "template",
+                    "altText": "this is a buttons template",
+                    "template": {
+                        "type": "buttons",
+                        "actions": [
+                            {
+                                "type": "postback",
+                                "label": "ไม่เกิน 2 ล้านบาท",
+                                "data": "saleCondo2m"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "2 ล้านบาท - 5 ล้านบา",
+                                "data": "saleCondo2m5m"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "5 ล้านบาท - 10 ล้านบ",
+                                "data": "saleCondo5m10m"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "10 ล้านบาทขึ้นไป",
+                                "data": "saleCondo10m"
+                            }
+                        ],
+                        "title": "ซื้อคอนโด",
+                        "text": "กรุณาระบุราคา"
+                    }
+                }
+            )
+        case 'เช่าคอนโด':
+            return client.replyMessage(replyToken,
+                {
+                    "type": "template",
+                    "altText": "this is a buttons template",
+                    "template": {
+                        "type": "buttons",
+                        "actions": [
+                            {
+                                "type": "postback",
+                                "label": "ไม่เกิน 5,000 บาท",
+                                "data": "rentCondo5"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "5,001 - 10,000 บาท",
+                                "data": "rentCondo510"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "10,001 - 30,000 บาท",
+                                "data": "rentCondo1030"
+                            },
+                            {
+                                "type": "postback",
+                                "label": "30,001 บาทขึ้นไป",
+                                "data": "rentCondo3"
+                            }
+                        ],
+                        "title": "เช่าคอนโด",
+                        "text": "กรุณาระบุราคา"
+                    }
                 }
             )
         // case "ค้นหา":

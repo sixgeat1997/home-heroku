@@ -1,4 +1,3 @@
-const { find, findOne } = require('../model/Home')
 
 const express = require('express'),
     rest = express.Router(),
@@ -13,11 +12,12 @@ rest.route('/')
 rest.route('/home')
     .get(async (req, res) => {
         // res.json(myhome)
-        const newhome = await Home.find(this.all)
+        const newhome = await Home.find()
         // const test = [...newhome]
+
         try {
             if (newhome) {
-                // console.log(newhome[0].name);
+                // console.log(newhome);
                 res.send(newhome)
             }
         } catch (err) {
@@ -33,7 +33,7 @@ rest.route('/home')
 
         const newhome = await Home.find(this.all)
         const { error } = homeValidation(req.body)
-        if (error) return res.status(400).send(error.details[0])
+        if (error) return res.status(400).send(error.details[0].message)
 
         const id = newhome.length
 
