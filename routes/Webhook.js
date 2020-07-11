@@ -15,7 +15,7 @@ const config = {
 const client = new line.Client(config)
 
 
-const value = ""
+var value = ""
 
 webhook.post('/webhook', line.middleware(config), async (req, res) => {
 
