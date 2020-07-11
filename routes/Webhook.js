@@ -21,7 +21,8 @@ const config = {
 
 const client = new line.Client(config)
 
-const value = ""
+var value = ""
+var value1 = ""
 
 webhook.post('/webhook', line.middleware(config), async (req, res) => {
     // console.log(request.body);
@@ -98,10 +99,13 @@ const handleReply = (event) => {
             let data = event.postback.data;
             console.log(data);
             const buttonsImageURL = 'https://ak.picdn.net/shutterstock/videos/12523241/thumb/1.jpg'
-            // value = data
+            value = data
+            console.log("value" + value);
             switch (data) {
 
                 case 'saleHome2m':
+                    value1 = 'saleHome2m'
+                    console.log("value1" + value1);
                     return client.replyMessage(
                         event.replyToken,
                         {
@@ -124,7 +128,7 @@ const handleReply = (event) => {
 
                 default:
                     console.log(`Echo message to ${replyToken}: ${message.text}`);
-                    return replyText(replyToken, message.text);
+                    return replyText(event.replyToken, event.message.text);
             }
 
         case 'beacon':
