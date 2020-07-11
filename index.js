@@ -13,7 +13,8 @@ const myuser = require('./routes/Myuser'),
     db = require('./config/db'),
     webhook = require('./routes/Webhook'),
     image = require('./routes/Image'),
-    verifyToken = require('./validator/verifyToken')
+    verifyToken = require('./validator/verifyToken'),
+    lineweb = require('./routes/Lineweb')
 
 let port = process.env.PORT || 4444
 
@@ -41,6 +42,7 @@ app.use('/api', rest)
 app.use('/search', search)
 app.use('/user', myuser)
 app.use('/uploads', image)
+app.use('/newline', lineweb)
 
 
 

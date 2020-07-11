@@ -17,16 +17,35 @@ const client = new line.Client(config)
 const value = ""
 
 webhook.post('/webhook', line.middleware(config), async (req, res) => {
+    console.log('POST: /');
+    console.log('Body: ', req.body);
+    //Create an instance
+    const agent = new WebhookClient({
+        request: req,
+        response: res
+    });
+    //Test get value of WebhookClient
+    console.log('agent ' + agent);
+    console.log('agentVersion: ' + agent.agentVersion);
+    console.log('intent: ' + agent.intent);
+    console.log('locale: ' + agent.locale);
+    console.log('query: ', agent.query);
+    console.log('session: ', agent.session);
+    console.log('req body qy'+ req.body.queryResult);
+    console.log('req body '+ req.body);
+    //Function Location
+    function randomNumber(agent) {
+        let startNumber = req.body.queryResult.parameters.startNumber
+        let endNumber = req.body.queryResult.parameters.endNumber
 
-    res.send(req.body)
+        let result = parseInt(Math.random() * (endNumber - startNumber) + startNumber);
 
-    Promise.all(req.body.events.map(handleReply))
-        .then(() => res.end())
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
-
+        agent.add(`Random number between ${startNumber} and ${endNumber} is ${result}`);
+    }
+    // Run the proper function handler based on the matched Dialogflow intent name
+    let intentMap = new Map();
+    intentMap.set('Number', randomNumber);  // "Location" is once Intent Name of Dialogflow Agent
+    agent.handleRequest(intentMap);
 })
 
 const handleReply = (event) => {
@@ -57,7 +76,7 @@ const handleReply = (event) => {
             switch (data) {
 
                 case 'saleHome2m':
-                   
+
                 default:
                     break;
             }
