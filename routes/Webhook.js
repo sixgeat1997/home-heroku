@@ -25,6 +25,13 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
 
     res.send(req.body)
 
+    client.replyMessage(req.body.events[0].replyToken,
+        {
+            type: 'text',
+            text: 'start'
+        }
+    )
+
     Promise.all(req.body.events.map(handleReply))
         .then(() => res.end())
         .catch((err) => {
@@ -319,7 +326,192 @@ const handleText = async (message, replyToken, source) => {
                     }
                 }
             )
+        case 't':
+            return client.replyMessage(
+                replyToken,
+                {
+                    "type": "flex",
+                    "altText": "Flex Message",
+                    "contents": {
+                        "type": "carousel",
+                        "contents": [
+                            {
+                                "type": "bubble",
+                                "hero": {
+                                    "type": "image",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_5_carousel.png",
+                                    "size": "full",
+                                    "aspectRatio": "20:13",
+                                    "aspectMode": "cover"
+                                },
+                                "body": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "Arm Chair, White",
+                                            "size": "xl",
+                                            "weight": "bold",
+                                            "wrap": true
+                                        },
+                                        {
+                                            "type": "box",
+                                            "layout": "baseline",
+                                            "contents": [
+                                                {
+                                                    "type": "text",
+                                                    "text": "$49",
+                                                    "flex": 0,
+                                                    "size": "xl",
+                                                    "weight": "bold",
+                                                    "wrap": true
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text": ".99",
+                                                    "flex": 0,
+                                                    "size": "sm",
+                                                    "weight": "bold",
+                                                    "wrap": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                "footer": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "button",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "Add to Cart",
+                                                "uri": "https://linecorp.com"
+                                            },
+                                            "style": "primary"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "Add to whishlist",
+                                                "uri": "https://linecorp.com"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "bubble",
+                                "hero": {
+                                    "type": "image",
+                                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_6_carousel.png",
+                                    "size": "full",
+                                    "aspectRatio": "20:13",
+                                    "aspectMode": "cover"
+                                },
+                                "body": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "Metal Desk Lamp",
+                                            "size": "xl",
+                                            "weight": "bold",
+                                            "wrap": true
+                                        },
+                                        {
+                                            "type": "box",
+                                            "layout": "baseline",
+                                            "flex": 1,
+                                            "contents": [
+                                                {
+                                                    "type": "text",
+                                                    "text": "$11",
+                                                    "flex": 0,
+                                                    "size": "xl",
+                                                    "weight": "bold",
+                                                    "wrap": true
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text": ".99",
+                                                    "flex": 0,
+                                                    "size": "sm",
+                                                    "weight": "bold",
+                                                    "wrap": true
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "Temporarily out of stock",
+                                            "flex": 0,
+                                            "margin": "md",
+                                            "size": "xxs",
+                                            "color": "#FF5551",
+                                            "wrap": true
+                                        }
+                                    ]
+                                },
+                                "footer": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "button",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "Add to Cart",
+                                                "uri": "https://linecorp.com"
+                                            },
+                                            "flex": 2,
+                                            "color": "#AAAAAA",
+                                            "style": "primary"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "Add to wish list",
+                                                "uri": "https://linecorp.com"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "bubble",
+                                "body": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "button",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "See more",
+                                                "uri": "https://linecorp.com"
+                                            },
+                                            "flex": 1,
+                                            "gravity": "center"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
 
+            )
         default:
             console.log(`Echo message to ${replyToken}: ${message.text}`);
             return replyText(replyToken, message.text);
@@ -332,28 +524,6 @@ const handleLocation = async (message, replyToken) => {
     console.log(message);
     const homes = await Home.find()
 
-    const findHome = async (fprice, eprice, category, type, homes) => {
-
-        const price = homes.filter(item => {
-            if (item.price >= +fprice && item.price <= +eprice)
-                return item
-        })
-        // console.log(price);
-
-        const ttype = price.filter(item => {
-            if (item.type == type)
-                return item
-        })
-        // console.log(ttype);
-
-        const okhome = ttype.filter(item => {
-            if (item.category == category)
-                return item
-        })
-
-        return okhome
-
-    }
     var GPS = function (lat, lnt) {
         this.latitude = lat || 0;
         this.longitude = lnt || 0;
@@ -406,6 +576,28 @@ const handleLocation = async (message, replyToken) => {
 
 }
 
+const findHome = async (fprice, eprice, category, type, homes) => {
+
+    const price = homes.filter(item => {
+        if (item.price >= +fprice && item.price <= +eprice)
+            return item
+    })
+    // console.log(price);
+
+    const ttype = price.filter(item => {
+        if (item.type == type)
+            return item
+    })
+    // console.log(ttype);
+
+    const okhome = ttype.filter(item => {
+        if (item.category == category)
+            return item
+    })
+
+    return okhome
+
+}
 
 const handleSticker = (message, replyToken) => {
 
