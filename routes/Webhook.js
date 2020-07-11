@@ -25,13 +25,6 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
 
     res.send(req.body)
 
-    client.replyMessage(req.body.events[0].replyToken,
-        {
-            type: 'text',
-            text: 'start'
-        }
-    )
-
     Promise.all(req.body.events.map(handleReply))
         .then(() => res.end())
         .catch((err) => {
@@ -550,7 +543,7 @@ const handleLocation = async (message, replyToken) => {
     var thishome
 
     if (value == 'saleHome2m') {
-        thishome = new Promise.all(findHome(0, 2000000, "condo", "sale", newHome))
+        thishome = findHome(0, 2000000, "condo", "sale", newHome, replyToken)
         console.log("thishome");
         console.log(thishome);
     }
@@ -576,7 +569,7 @@ const handleLocation = async (message, replyToken) => {
 
 }
 
-const findHome = async (fprice, eprice, category, type, homes) => {
+const findHome = async (fprice, eprice, category, type, homes, replyToken) => {
 
     const price = homes.filter(item => {
         if (item.price >= +fprice && item.price <= +eprice)
@@ -595,7 +588,12 @@ const findHome = async (fprice, eprice, category, type, homes) => {
             return item
     })
 
-    return okhome
+    return client.replyMessage(replyToken,
+        {
+            type:'text',
+            text:'ok'
+        }
+    )
 
 }
 
