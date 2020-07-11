@@ -543,28 +543,22 @@ const handleLocation = async (message, replyToken) => {
     var thishome
 
     if (value == 'saleHome2m') {
-        thishome = findHome(0, 2000000, "condo", "sale", newHome, replyToken)
-        console.log("thishome");
-        console.log(thishome);
+        findHome(0, 2000000, "condo", "sale", newHome, replyToken)
+
     }
     else if (value == 'saleHome2m5m') {
-        thishome = findHome(2000000, 5000000, "condo", "sale", newHome)
-        console.log("thishome");
-        console.log(thishome);
+        findHome(2000000, 5000000, "condo", "sale", newHome)
+
     }
     else if (value == 'saleHome5m10m') {
-        thishome = findHome(5000000, 10000000, "condo", "sale", newHome)
-        console.log("thishome");
-        console.log(thishome);
+        findHome(5000000, 10000000, "condo", "sale", newHome)
+
     }
     else if (value == 'saleHome10m') {
-        thishome = findHome(10000000, 20000000000, "condo", "sale", newHome)
-        console.log("thishome");
-        console.log(thishome);
+        findHome(10000000, 20000000000, "condo", "sale", newHome)
+
     }
 
-    console.log('out if');
-    console.log(thishome[0]);
 
 
 }
@@ -588,11 +582,16 @@ const findHome = async (fprice, eprice, category, type, homes, replyToken) => {
             return item
     })
 
-    return client.replyMessage(replyToken,
-        {
-            type:'text',
-            text:'ok'
-        }
+    return (
+
+        okhome.map((index, item) => {
+            client.replyMessage(replyToken,
+                {
+                    type: 'text',
+                    text: `${item._id}`
+                }
+            )
+        })
     )
 
 }
