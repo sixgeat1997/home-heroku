@@ -66,7 +66,7 @@ const handleReply = (event) => {
                 return client.replyMessage(event.replyToken,
                     {
                         type: 'text',
-                        text: "ระบุข้อมความไม่ถูกต้อง",
+                        text: "ส่ง location ที่คุณต้องการค้นหา",
                         quickReply: {
                             items: [
                                 {
@@ -322,6 +322,10 @@ const handleText = async (message, replyToken, source) => {
 }
 
 const handleLocation = (message, replyToken) => {
+    console.log(value);
+    console.log(message);
+
+
 
 }
 
