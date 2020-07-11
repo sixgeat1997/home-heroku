@@ -336,7 +336,7 @@ const handleLocation = async (message, replyToken) => {
     };
 
     const newHome = homes.filter((item) => {
-        var gps1 = new GPS(+latitude, +longitude);
+        var gps1 = new GPS(+message.latitude, +message.longitude);
         var gps2 = new GPS(+item.latitude, +item.longitude);
 
 
