@@ -2,6 +2,7 @@ const express = require('express'),
     webhook = express.Router(),
     request = require('request'),
     line = require('@line/bot-sdk')
+const { WebhookClient } = require('dialogflow-fulfillment');
 
 
 
@@ -31,8 +32,8 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
     console.log('locale: ' + agent.locale);
     console.log('query: ', agent.query);
     console.log('session: ', agent.session);
-    console.log('req body qy'+ req.body.queryResult);
-    console.log('req body '+ req.body);
+    console.log('req body qy' + req.body.queryResult);
+    console.log('req body ' + req.body);
     //Function Location
     function randomNumber(agent) {
         let startNumber = req.body.queryResult.parameters.startNumber
@@ -87,3 +88,5 @@ const handleReply = (event) => {
     }
 
 }
+
+module.exports = webhook
