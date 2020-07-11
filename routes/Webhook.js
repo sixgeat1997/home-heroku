@@ -25,12 +25,14 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
 
     res.send(req.body)
 
-    Promise.all(req.body.events.map(handleReply))
-        .then(() => res.end())
-        .catch((err) => {
-            console.error(err);
-            res.status(500).end();
-        });
+    // Promise.all(req.body.events.map(handleReply))
+    //     .then(() => res.end())
+    //     .catch((err) => {
+    //         console.error(err);
+    //         res.status(500).end();
+    //     });
+
+    handleReply(req.body.events)
 
 })
 
