@@ -341,7 +341,10 @@ const handleLocation = async (message, replyToken) => {
 
 
         distance = findDistance(gps1, gps2)
-        distance = distance - 10980000
+
+        if (distance > 10980000)
+            distance = distance - 10980000
+
         console.log(distance);
 
         if (distance < 5000)
@@ -352,7 +355,8 @@ const handleLocation = async (message, replyToken) => {
     console.log(newHome);
 
     if (value == 'saleHome2m') {
-        var thishome = findHome(0, 2000000, house, sale)
+        var thishome = findHome(0, 2000000, "house", "sale", newHome)
+        console.log(thishome);
     } else if (value == 'saleHome2m5m') {
 
     } else if (value == 'saleHome5m10m') {
@@ -366,7 +370,7 @@ const handleLocation = async (message, replyToken) => {
 
 }
 
-const findHome = async (fprice, eprice, category, type) => {
+const findHome = async (fprice, eprice, category, type, homes) => {
 
     const price = homes.filter(item => {
         if (item.price >= +fprice && item.price <= +eprice)
@@ -385,6 +389,7 @@ const findHome = async (fprice, eprice, category, type) => {
             return item
     })
 
+    return okhome
 
 }
 
