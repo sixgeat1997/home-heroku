@@ -550,7 +550,7 @@ const handleLocation = async (message, replyToken) => {
     var thishome
 
     if (value == 'saleHome2m') {
-        thishome = findHome(0, 2000000, "condo", "sale", newHome)
+        thishome = new Promise.all(findHome(0, 2000000, "condo", "sale", newHome))
         console.log("thishome");
         console.log(thishome);
     }
