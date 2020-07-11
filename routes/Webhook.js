@@ -377,7 +377,7 @@ const handleLocation = async (message, replyToken) => {
     }
 
     console.log('out if');
-    console.log(thishome);
+    console.log(thishome[0]);
 
 
 }
