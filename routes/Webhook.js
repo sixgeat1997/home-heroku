@@ -98,7 +98,7 @@ const handleReply = (event) => {
             let data = event.postback.data;
             console.log(data);
             const buttonsImageURL = 'https://ak.picdn.net/shutterstock/videos/12523241/thumb/1.jpg'
-            value = data
+            // value = data
             switch (data) {
 
                 case 'saleHome2m':
@@ -109,7 +109,7 @@ const handleReply = (event) => {
                             altText: 'Buttons alt text',
                             template: {
                                 type: 'buttons',
-                                // thumbnailImageUrl: buttonsImageURL,
+                                thumbnailImageUrl: buttonsImageURL,
                                 title: 'My button sample',
                                 text: 'Hello, my button',
                                 actions: [
@@ -121,10 +121,10 @@ const handleReply = (event) => {
                             },
                         }
                     );
-                    break;
 
                 default:
-                    break;
+                    console.log(`Echo message to ${replyToken}: ${message.text}`);
+                    return replyText(replyToken, message.text);
             }
 
         case 'beacon':
@@ -235,12 +235,12 @@ const handleText = async (message, replyToken, source) => {
                             },
                             {
                                 "type": "postback",
-                                "label": "2 ล้านบาท - 5 ล้านบา",
+                                "label": "2 ล้านบาท - 5 ล้านบาท",
                                 "data": "saleHome2m5m"
                             },
                             {
                                 "type": "postback",
-                                "label": "5 ล้านบาท - 10 ล้านบ",
+                                "label": "5 ล้านบาท - 10 ล้านบาท",
                                 "data": "saleHome5m10m"
                             },
                             {
@@ -303,12 +303,12 @@ const handleText = async (message, replyToken, source) => {
                             },
                             {
                                 "type": "postback",
-                                "label": "2 ล้านบาท - 5 ล้านบา",
+                                "label": "2 ล้านบาท - 5 ล้านบาท",
                                 "data": "saleCondo2m5m"
                             },
                             {
                                 "type": "postback",
-                                "label": "5 ล้านบาท - 10 ล้านบ",
+                                "label": "5 ล้านบาท - 10 ล้านบาท",
                                 "data": "saleCondo5m10m"
                             },
                             {
