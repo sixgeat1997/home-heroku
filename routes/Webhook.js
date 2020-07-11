@@ -2,7 +2,11 @@
 const express = require('express'),
     webhook = express.Router(),
     request = require('request'),
-    line = require('@line/bot-sdk')
+    line = require('@line/bot-sdk'),
+    Home = require('../model/Home'),
+    findDistance = require('../model/findDistance')
+
+
 
 
 
@@ -321,10 +325,65 @@ const handleText = async (message, replyToken, source) => {
 
 }
 
-const handleLocation = (message, replyToken) => {
+const handleLocation = async (message, replyToken) => {
     console.log(value);
     console.log(message);
+    const homes = await Home.find()
 
+    var GPS = function (lat, lnt) {
+        this.latitude = lat || 0;
+        this.longitude = lnt || 0;
+    };
+
+    const newHome = homes.filter((item) => {
+        var gps1 = new GPS(+latitude, +longitude);
+        var gps2 = new GPS(+item.latitude, +item.longitude);
+
+
+        distance = findDistance(gps1, gps2)
+        distance = distance - 10980000
+        console.log(distance);
+
+        if (distance < 5000)
+            return item
+        // nearby.push(item)
+    })
+
+    console.log(newHome);
+
+    if (value == 'saleHome2m') {
+        var thishome = findHome(0, 2000000, house, sale)
+    } else if (value == 'saleHome2m5m') {
+
+    } else if (value == 'saleHome5m10m') {
+
+    } else if (value == 'saleHome10m') {
+
+    }
+
+
+
+
+}
+
+const findHome = async (fprice, eprice, category, type) => {
+
+    const price = homes.filter(item => {
+        if (item.price >= +fprice && item.price <= +eprice)
+            return item
+    })
+    console.log(price);
+
+    const ttype = price.filter(item => {
+        if (item.type == type)
+            return item
+    })
+    console.log(ttype);
+
+    const okhome = ttype.filter(item => {
+        if (item.category == category)
+            return item
+    })
 
 
 }
