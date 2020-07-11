@@ -352,10 +352,11 @@ const handleLocation = async (message, replyToken) => {
         // nearby.push(item)
     })
 
-    console.log(newHome);
+    // console.log(newHome);
 
     if (value == 'saleHome2m') {
         var thishome = findHome(0, 2000000, "house", "sale", newHome)
+        console.log("thishome");
         console.log(thishome);
     } else if (value == 'saleHome2m5m') {
 
@@ -376,13 +377,13 @@ const findHome = async (fprice, eprice, category, type, homes) => {
         if (item.price >= +fprice && item.price <= +eprice)
             return item
     })
-    console.log(price);
+    // console.log(price);
 
     const ttype = price.filter(item => {
         if (item.type == type)
             return item
     })
-    console.log(ttype);
+    // console.log(ttype);
 
     const okhome = ttype.filter(item => {
         if (item.category == category)
