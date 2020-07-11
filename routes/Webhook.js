@@ -25,14 +25,14 @@ webhook.post('/webhook', line.middleware(config), async (req, res) => {
 
     res.send(req.body)
 
-    // Promise.all(req.body.events.map(handleReply))
-    //     .then(() => res.end())
-    //     .catch((err) => {
-    //         console.error(err);
-    //         res.status(500).end();
-    //     });
+    Promise.all(req.body.events.map(handleReply))
+        .then(() => res.end())
+        .catch((err) => {
+            console.error(err);
+            res.status(500).end();
+        });
 
-    handleReply(req.body.events)
+    // handleReply(req.body.events)
 
 })
 
@@ -332,6 +332,28 @@ const handleLocation = async (message, replyToken) => {
     console.log(message);
     const homes = await Home.find()
 
+    const findHome = async (fprice, eprice, category, type, homes) => {
+
+        const price = homes.filter(item => {
+            if (item.price >= +fprice && item.price <= +eprice)
+                return item
+        })
+        // console.log(price);
+
+        const ttype = price.filter(item => {
+            if (item.type == type)
+                return item
+        })
+        // console.log(ttype);
+
+        const okhome = ttype.filter(item => {
+            if (item.category == category)
+                return item
+        })
+
+        return okhome
+
+    }
     var GPS = function (lat, lnt) {
         this.latitude = lat || 0;
         this.longitude = lnt || 0;
@@ -384,28 +406,6 @@ const handleLocation = async (message, replyToken) => {
 
 }
 
-const findHome = async (fprice, eprice, category, type, homes) => {
-
-    const price = homes.filter(item => {
-        if (item.price >= +fprice && item.price <= +eprice)
-            return item
-    })
-    // console.log(price);
-
-    const ttype = price.filter(item => {
-        if (item.type == type)
-            return item
-    })
-    // console.log(ttype);
-
-    const okhome = ttype.filter(item => {
-        if (item.category == category)
-            return item
-    })
-
-    return okhome
-
-}
 
 const handleSticker = (message, replyToken) => {
 
