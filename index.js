@@ -38,6 +38,9 @@ mongoose.connect(
 app.use('/line', webhook)
 app.use(bodyParser.json())
 
+app.use('/',(req,res)=>{
+    res.send('Home Page')
+})
 app.use('/api', rest)
 app.use('/search', search)
 app.use('/user', myuser)
