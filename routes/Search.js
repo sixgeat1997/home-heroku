@@ -152,7 +152,8 @@ search.route('/location')
 
 
             distance = findDistance(gps1, gps2)
-            distance = distance - 10980000
+            if (distance > 10980000)
+                distance = distance - 10980000
             console.log(distance);
 
             if (distance < 5000)

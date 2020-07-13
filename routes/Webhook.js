@@ -563,6 +563,10 @@ const handleLocation = async (message, replyToken) => {
 
 }
 
+const replyEverthing = () => {
+
+}
+
 const findHome = async (fprice, eprice, category, type, homes, replyToken) => {
 
     const price = homes.filter(item => {
@@ -585,8 +589,8 @@ const findHome = async (fprice, eprice, category, type, homes, replyToken) => {
     client.replyMessage(
         replyToken,
         {
-            type:'text',
-            text:`พบจำนวน ${okhome.length} ประกาศใน 10 กม.`
+            type: 'text',
+            text: `พบจำนวน ${okhome.length} ประกาศใน 10 กม.`
         }
     )
 
@@ -875,8 +879,8 @@ const findHome = async (fprice, eprice, category, type, homes, replyToken) => {
     else return client.replyMessage(
         replyToken,
         {
-            type:'text',
-            text:'ไม่มีข้อมูลที่ลูกค้าต้องการ'
+            type: 'text',
+            text: 'ไม่มีข้อมูลที่ลูกค้าต้องการ'
         }
     )
 
