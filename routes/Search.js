@@ -101,30 +101,80 @@ search.route('/myhome')
     .post(async (req, res) => {
 
         const homes = await Home.find(this.all)
-        console.log(homes);
+        // console.log(homes);
+        const fPrice = req.body.fPrice
+        const ePrice = req.body.ePrice
+        const province = req.body.province
+        const category = req.body.category
+        const name = req.body.name
+        const type = req.body.type
 
-        const { fPrice, ePrice, province, category } = { ...req.body }
-        // console.log(fPrice + ePrice + province + category);
+        if (fPrice && ePrice && province && category) {
 
-        const price = homes.filter(item => {
-            if (item.price >= +fPrice && item.price <= +ePrice)
-                return item
-        })
-        console.log(price);
+            const price = homes.filter(item => {
+                if (item.price >= +fPrice && item.price <= +ePrice)
+                    return item
+            })
+            console.log(price);
 
-        const prov = price.filter(item => {
-            if (item.province == province)
-                return item
-        })
-        console.log(prov);
+            const prov = price.filter(item => {
+                if (item.province == province)
+                    return item
+            })
+            console.log(prov);
 
-        const okhome = prov.filter(item => {
-            if (item.category == category)
-                return item
-        })
+            const okhome = prov.filter(item => {
+                if (item.category == category)
+                    return item
+            })
 
-        res.send(okhome)
-        console.log(okhome);
+            res.send(okhome)
+            console.log("1");
+        }
+
+        else if (name && type && category) {
+            const namehome = homes.filter(item => {
+                if (item.name == name)
+                    return item
+            })
+
+            const typehome = namehome.filter(item => {
+                if (item.type == type)
+                    return item
+            })
+
+            const cathome = typehome.filter(item => {
+                if (item.category == category)
+                    return item
+            })
+
+            res.send(cathome)
+            // console.log(cathome);
+            console.log("2");
+
+        }
+
+        else if (fPrice && ePrice && type) {
+            const price = homes.filter(item => {
+                if (item.price >= +fPrice && item.price <= +ePrice)
+                    return item
+            })
+
+            const typehome = price.filter(item => {
+                if (item.type == type)
+                    return item
+            })
+
+            res.send(typehome)
+            console.log("3");
+
+        }
+
+        else {
+            res.json({
+                message: "parameter incorrect"
+            })
+        }
 
 
     })
@@ -156,7 +206,7 @@ search.route('/location')
                 distance = distance - 10980000
             console.log(distance);
 
-            if (distance < 5000)
+            if (distance < 7000)
                 return item
             // nearby.push(item)
         })
