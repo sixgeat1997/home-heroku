@@ -111,7 +111,7 @@ rest.route('/edit/:id')
         // myhome[index].tel = req.body.tel
         // res.json({ message: "update" })
 
-        const lo = await Home.updateOne({ id: 0 }, {
+        const lo = await Home.updateOne({ id: +req.params.id }, {
             $set: req.body
         }, (error, results) => {
             res.status(400).json({ update: true })
