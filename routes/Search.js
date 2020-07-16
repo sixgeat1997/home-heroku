@@ -16,7 +16,7 @@ search.route('/myhome')
         const name = req.body.name
         const type = req.body.type
 
-        if (fPrice && ePrice && province && category) {
+        if (fPrice && ePrice && (province) && category) {
 
             const price = homes.filter(item => {
                 if (item.price >= +fPrice && item.price <= +ePrice)
@@ -34,8 +34,11 @@ search.route('/myhome')
                 if (item.category == category)
                     return item
             })
-
-            res.send(okhome)
+            console.log("1" + okhome);
+            if (okhome.length > 0)
+                res.send(okhome)
+            else
+                res.json({ message: "not found homes" })
             console.log("1");
         }
 
@@ -55,7 +58,10 @@ search.route('/myhome')
                     return item
             })
 
-            res.send(cathome)
+            if (cathome.length > 0)
+                res.send(cathome)
+            else
+                res.json({ message: "not found homes" })
             // console.log(cathome);
             console.log("2");
 
@@ -71,8 +77,10 @@ search.route('/myhome')
                 if (item.type == type)
                     return item
             })
-
-            res.send(typehome)
+            if (typehome.length > 0)
+                res.send(typehome)
+            else
+                res.json({ message: "not found homes" })
             console.log("3");
 
         }
@@ -119,8 +127,10 @@ search.route('/location')
         })
         console.log(x);
         // res.send(distance)
-
-        res.send(x)
+        if (x.length > 0)
+            res.send(x)
+        else
+            res.json({ message: "not found homes" })
 
 
 

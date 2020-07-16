@@ -54,6 +54,7 @@ image.post('/upload', async (req, res) => {
     const newhome = await Home.find(this.all)
     const id = newhome.length
     console.log(newhome);
+    console.log(req.body);
 
 
 
