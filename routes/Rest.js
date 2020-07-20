@@ -6,6 +6,7 @@ const express = require('express'),
 
 rest.route('/')
     .get((req, res) => {
+
         res.send("1234")
     })
 

@@ -37,58 +37,57 @@ checkFileType = (file, cb) => {
         cb("images only");
     }
 };
+
 let uploader = multer({
     storage,
     limits: { fileSize: 100000000 },
     fileFilter: (req, file, cb) => {
         checkFileType(file, cb);
     }
-}).array("file");
+})
 
 
 
 image.get('/upload/:path', (req, res) => {
     return res.sendFile(req.params.path, { root: "uploads/" });
 })
-image.post('/upload', async (req, res) => {
+image.post('/upload', uploader.array('file'), async (req, res) => {
     const newhome = await Home.find(this.all)
     const id = newhome.length
-    console.log(newhome);
-    console.log(req.body);
+    // console.log(newhome);
+    console.log(req.files);
+    console.log(req.protocol + ' ' + req.get('host'));
 
+    if (files.length < 1) {
+        res.json({ message: 'no file' })
+    }
+    else {
 
-
-    uploader(req, res, err => {
-        if (err) res.json({ message: "error", details: err });
-        else {
-            if (req.files == undefined) {
-                res.json({ message: "error", details: "no file selected" });
-            }
-            else {
-                const files = req.files
-                const urlImage = []
-                for (const key in req.files) {
-                    if (key) {
-                        // console.log(files[key].filename);
-                        urlImage.push(`${server}/uploads/upload/${files[key].filename}`)
-                    }
-                }
-                const img = new imgSchema({
-                    id: id > 0 ? newhome[id - 1].id + 1 : +id,
-                    // img: `${server}/uploads/upload/${files[key].filename}`
-                    img: urlImage
-                })
-                const savedImg = img.save()
-
-                res.send(urlImage)
-                // res.json({
-                //     message: "file uploaded",
-                //     url: `${urlImage}`
-                // });
-            }
+        if (req.files == undefined) {
+            res.json({ message: "error", details: "no file selected" });
         }
-    });
+        else {
+            const files = req.files
+            const urlImage = []
+            for (const key in req.files) {
+                if (key) {
+                    // console.log(files[key].filename);
+                    urlImage.push(`${server}/uploads/upload/${files[key].filename}`)
+                }
+            }
+            const img = new imgSchema({
+                id: id > 0 ? newhome[id - 1].id + 1 : +id,
+                // img: `${server}/uploads/upload/${files[key].filename}`
+                img: urlImage
+            })
+            const savedImg = img.save()
+
+            res.send(urlImage)
+
+        }
+
+    }
 })
 
 module.exports = image
-// module.exports.uploader = uploader
+    // module.exports.uploader = uploader
